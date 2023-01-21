@@ -11,6 +11,9 @@ v20 = "^3.0.25.0"
 streamlit = "^1.17.0"
 pandas = "^1.5.2"
 plotly = "^5.12.0"
+watchdog = "^2.2.1"
+tpqoa = {git = "https://github.com/yhilpisch/tpqoa.git"}
+matplotlib = "^3.6.3"
 
 
 [build-system]
