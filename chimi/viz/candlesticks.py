@@ -1,9 +1,10 @@
+import altair as alt
 import pandas as pd
 from plotly import graph_objects as go
 from plotly.subplots import make_subplots
 
 
-def get_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=365):
+def plot_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=180):
     layout = go.Layout(
         xaxis={"title": "Date"},
         yaxis={"title": "Price"},
@@ -89,3 +90,34 @@ def get_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=365):
     )
 
     return fig
+
+
+def alt_candlesticks(source: pd.DataFrame):
+    open_close_color = alt.condition(
+        "datum.open <= datum.close", alt.value("#06982d"), alt.value("#ae1325")
+    )
+
+    base = alt.Chart(source).properties(width=1600, height=900)
+    base = base.encode(
+        alt.X(
+            "date:T",
+            axis=alt.Axis(format="%Y-%m-%d", labelAngle=-45, title="Date"),
+        ),
+        color=open_close_color,
+    )
+    rule = (
+        base.mark_rule()
+        .encode(
+            alt.Y(
+                "low:Q",
+                title="Price",
+                scale=alt.Scale(zero=False),
+            ),
+            alt.Y2("high:Q"),
+        )
+        .interactive()
+    )
+    bar = base.mark_bar().encode(alt.Y("open:Q"), alt.Y2("close:Q")).interactive()
+    chart = rule + bar
+    # print(chart.to_json(indent=2))
+    return chart

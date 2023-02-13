@@ -29,11 +29,6 @@ if __name__ == "__main__":
         columns={"time": "date", "o": "open", "h": "high", "l": "low", "c": "close"},
         inplace=True,
     )
-    print(df.head())
-    dataset = data.ohlc()
-    # print(dataset.head())
 
-    chart = alt_candlesticks(source=data.ohlc())
-    chart2 = alt_candlesticks(source=df)
-    # chart.show()
-    chart2.show()
+    chart = alt_candlesticks(source=df)
+    chart.show()
