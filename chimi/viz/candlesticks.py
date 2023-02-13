@@ -93,11 +93,18 @@ def plot_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=180)
 
 
 def alt_candlesticks(source: pd.DataFrame):
+    # Prepare data
+    data = source.reset_index()
+    data.rename(
+        columns={"time": "date", "o": "open", "h": "high", "l": "low", "c": "close"},
+        inplace=True,
+    )
+
     open_close_color = alt.condition(
         "datum.open <= datum.close", alt.value("#06982d"), alt.value("#ae1325")
     )
 
-    base = alt.Chart(source).properties(width=1600, height=900)
+    base = alt.Chart(data).properties(width=1600, height=900)
     base = base.encode(
         alt.X(
             "date:T",
@@ -119,5 +126,5 @@ def alt_candlesticks(source: pd.DataFrame):
     )
     bar = base.mark_bar().encode(alt.Y("open:Q"), alt.Y2("close:Q")).interactive()
     chart = rule + bar
-    # print(chart.to_json(indent=2))
+    # print(chart.to_json(indent=2)) # Alternative to render json of chart for OpenBlocks
     return chart
