@@ -1,7 +1,6 @@
 import tpqoa
 import altair as alt
-from vega_datasets import data
-from chimi.viz.candlesticks import alt_candlesticks
+from chimi.viz import alt_candlesticks
 from datetime import datetime
 
 # Initial setup and api connection
