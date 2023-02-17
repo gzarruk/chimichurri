@@ -129,6 +129,7 @@ venv/
 env.bak/
 venv.bak/
 oanda.practice.cfg
+oanda.live.cfg
 
 # Spyder project settings
 .spyderproject
