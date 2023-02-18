@@ -20,12 +20,36 @@ altair = "^4.2.2"
 vega-datasets = "^0.9.0"
 altair-viewer = "^0.4.0"
 jupyter = "^1.0.0"
-pytest = "^7.2.1"
+flake8 = "^6.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
+isort = "^5.12.0"
+black = "^23.1.0"
+pre-commit = "^3.0.4"
+mypy = "^0.991"
+pytest = "^7.2.1"
+
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target_version = ['py37']
+include = '\.py$'
+
+[tool.isort]
+line_length=120                # corresponds to -w  flag
+multi_line_output=3            # corresponds to -m  flag
+include_trailing_comma=true    # corresponds to -tc flag
+skip_glob = '^((?!py$).)*$'    # isort all Python files
+float_to_top=true
+known_third_party = []
+
+[tool.mypy]
+check_untyped_defs = true
+ignore_missing_imports = false
+disallow_untyped_defs = true

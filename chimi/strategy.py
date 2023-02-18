@@ -1,8 +1,9 @@
+from datetime import datetime
+from pathlib import Path
+from typing import Optional, Union
+
 import pandas as pd
 import tpqoa
-from pathlib import Path
-from datetime import datetime
-from typing import Union, Optional
 
 DEMO_CONFIG_FILEPATH = Path(__file__).resolve().parent.parent / "oanda.practice.cfg"
 LIVE_CONFIG_FILEPATH = Path(__file__).resolve().parent.parent / "oanda.live.cfg"
@@ -17,10 +18,7 @@ class Strategy:
         end: Optional[Union[datetime, str]] = None,
         granularity: Optional[str] = None,
         price: Optional[str] = None,
-    ):
-        """
-        Using GOLD (XAU_USD) and practice account as default values for any strategy.
-        """
+    ) -> None:
         self.data = None
         self.pair = pair
         self.live = live
@@ -46,5 +44,5 @@ class Strategy:
         )
         return self.data
 
-    def plot(self):
-        pass
+    # def plot(self):
+    #     pass

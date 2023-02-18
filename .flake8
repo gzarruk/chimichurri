@@ -1,0 +1,8 @@
+[flake8]
+ignore = E731, W503, W504, E203, E501, W291, W605, E401, F401, D100, ANN101, ANN102
+max-line-length = 121
+docstring-convention=numpy
+per-file-ignores =
+    tests/*: D101, D102, D103, D104
+    docs/*: A001
+    */__init__.py: D104

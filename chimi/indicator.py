@@ -27,12 +27,7 @@ def vma(series: pd.Series, periods: int = 38) -> pd.Series:
     iS = _estimate_iS(diff, k, N)
 
     # Estimate hhv, llv, vI:
-    iS_df = (
-        pd.Series(iS, index=series.index)
-        .rolling(periods, min_periods=1)
-        .aggregate(["min", "max"])
-        .fillna(0)
-    )
+    iS_df = pd.Series(iS, index=series.index).rolling(periods, min_periods=1).aggregate(["min", "max"]).fillna(0)
     hhv, llv = iS_df["max"], iS_df["min"]
     vI = (iS - llv) / (hhv - llv)
 
@@ -40,35 +35,35 @@ def vma(series: pd.Series, periods: int = 38) -> pd.Series:
     return pd.Series(_estimate_vma(vI.values, series.values, k, N), index=series.index)
 
 
-def _estimate_iS(diff, k, N):
+def _estimate_iS(diff: pd.Series, k: float, len: int) -> pd.Series:  # noqa: ANN202
     # Estimate pdm and mdm:
-    pdm, mdm = np.zeros(N), np.zeros(N)
+    pdm, mdm = np.zeros(len), np.zeros(len)
     pdm[1:] = np.maximum(diff, 0)
     mdm[1:] = np.maximum(-diff, 0)
     # Estimate pdmS, mdmS:
-    pdmS, mdmS = np.zeros(N), np.zeros(N)
-    for i in range(1, N):
+    pdmS, mdmS = np.zeros(len), np.zeros(len)
+    for i in range(1, len):
         pdmS[i] = (1 - k) * pdmS[i - 1] + k * pdm[i]
         mdmS[i] = (1 - k) * mdmS[i - 1] + k * mdm[i]
-    pdi, mdi = np.zeros(N), np.zeros(N)
+    pdi, mdi = np.zeros(len), np.zeros(len)
     s = mdmS + pdmS
     pdi[1:] = pdmS[1:] / s[1:]
     mdi[1:] = mdmS[1:] / s[1:]
     # Estimate pdiS, mdiS, d, s1:
-    pdiS, mdiS = np.zeros(N), np.zeros(N)
-    for i in range(1, N):
+    pdiS, mdiS = np.zeros(len), np.zeros(len)
+    for i in range(1, len):
         pdiS[i] = (1 - k) * pdiS[i - 1] + k * pdi[i]
         mdiS[i] = (1 - k) * mdiS[i - 1] + k * mdi[i]
     d = np.abs(pdiS - mdiS)
     s1 = pdiS + mdiS
     # Estimate iS:
-    iS = np.zeros(N)
-    for i in range(1, N):
+    iS = np.zeros(len)
+    for i in range(1, len):
         iS[i] = (1 - k) * iS[i - 1] + k * d[i] / s1[i]
-    return iS
+    return iS  # noqa: ANN202
 
 
-def _estimate_vma(vI, arr, k, N):
+def _estimate_vma(vI, arr, k, N):  # noqa: ANN202, ANN001
     vma = np.zeros(N)
     for i in range(1, N):
         vma[i] = (1 - k * vI[i]) * vma[i - 1] + k * vI[i] * arr[i]

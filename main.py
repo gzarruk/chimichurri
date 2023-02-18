@@ -1,6 +1,6 @@
-from chimi import Strategy
 from datetime import datetime
 
+from chimi import Strategy
 
 # Press the green button in the gutter to run the script.
 if __name__ == "__main__":
