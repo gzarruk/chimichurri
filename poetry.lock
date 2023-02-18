@@ -1774,6 +1774,22 @@ files = [
 ]
 
 [[package]]
+name = "mpld3"
+version = "0.5.9"
+description = "D3 Viewer for Matplotlib"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "mpld3-0.5.9-py3-none-any.whl", hash = "sha256:cecdd988b24f8d7c7f362b8f72bb91df1a24b1993dd02a958223918a31c31052"},
+    {file = "mpld3-0.5.9.tar.gz", hash = "sha256:d8d228b2911132fd0154e2a49543b7f97247f9851cfe468c6b616f452c676158"},
+]
+
+[package.dependencies]
+jinja2 = "*"
+matplotlib = "*"
+
+[[package]]
 name = "mypy"
 version = "0.991"
 description = "Optional static typing for Python"
@@ -3741,4 +3757,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "5fac2565f1aaf9ea6ee6e007c852e95fa62378c77c3abb78ee548077777e58ac"
+content-hash = "ddde362f2dcca1c0905359cdf1090f12bc3917349b2156457d38b512cacd2fd5"
