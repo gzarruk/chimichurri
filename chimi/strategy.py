@@ -1,0 +1,47 @@
+import pandas as pd
+import tpqoa
+from pathlib import Path
+from datetime import datetime
+from typing import Union, Optional
+
+DEMO_CONFIG_FILEPATH = Path(__file__).resolve().parent.parent / "oanda.practice.cfg"
+LIVE_CONFIG_FILEPATH = Path(__file__).resolve().parent.parent / "oanda.live.cfg"
+
+
+class Strategy:
+    def __init__(
+        self,
+        live: bool = False,
+        pair: str = "XAU_USD",
+        start: Optional[Union[datetime, str]] = None,
+        end: Optional[Union[datetime, str]] = None,
+        granularity: Optional[str] = None,
+        price: Optional[str] = None,
+    ):
+        """
+        Using GOLD (XAU_USD) and practice account as default values for any strategy.
+        """
+        self.data = None
+        self.pair = pair
+        self.live = live
+        self.start = start
+        self.end = end
+        self.granularity = granularity
+        self.price = price
+        # Connect to OANDA account
+        self.oanda = tpqoa.tpqoa(DEMO_CONFIG_FILEPATH)
+        if self.live:
+            self.oanda = tpqoa.tpqoa(LIVE_CONFIG_FILEPATH)
+
+    def get_data(self) -> pd.DataFrame:
+        """Get data from OANDA API
+        Wrapper method for the OANDA API
+        """
+        self.data = self.oanda.get_history(
+            instrument=self.pair,
+            start=self.start,
+            end=self.end,
+            granularity=self.granularity,
+            price=self.price,
+        )
+        return self.data

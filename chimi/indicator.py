@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 def vma(series: pd.Series, periods: int = 38) -> pd.Series:
