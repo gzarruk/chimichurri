@@ -45,3 +45,6 @@ class Strategy:
             price=self.price,
         )
         return self.data
+
+    def plot(self):
+        pass
