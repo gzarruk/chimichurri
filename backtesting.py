@@ -19,15 +19,9 @@ if __name__ == "__main__":
     price = "B"
 
     # Load historical data
-    df = api.get_history(
+    data = api.get_history(
         instrument=pair, start=start, end=end, granularity=granularity, price=price
     )
 
-    df.reset_index(inplace=True)
-    df.rename(
-        columns={"time": "date", "o": "open", "h": "high", "l": "low", "c": "close"},
-        inplace=True,
-    )
-
-    chart = alt_candlesticks(source=df)
+    chart = alt_candlesticks(source=data)
     chart.show()

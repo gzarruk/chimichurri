@@ -13,6 +13,3 @@ if __name__ == "__main__":
     )
 
     data = tauro.get_data()
-
-    print(data.head())
-    print(tauro.oanda.get_account_summary())
