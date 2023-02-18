@@ -4,16 +4,8 @@ from plotly import graph_objects as go
 from plotly.subplots import make_subplots
 
 
-def plot_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=180):
-    layout = go.Layout(
-        xaxis={"title": "Date"},
-        yaxis={"title": "Price"},
-        height=2**10,
-    )
-
-    fig = make_subplots(
-        rows=2, cols=1, row_heights=[0.8, 0.2], shared_xaxes=True, vertical_spacing=0.05
-    )
+def plot_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back: int = 180) -> None:
+    fig = make_subplots(rows=2, cols=1, row_heights=[0.8, 0.2], shared_xaxes=True, vertical_spacing=0.05)
 
     fig.add_trace(
         go.Candlestick(
@@ -69,9 +61,7 @@ def plot_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=180)
         spikethickness=0.25,
     )
 
-    fig.update_yaxes(
-        showspikes=True, spikedash="solid", spikemode="across", spikethickness=0.25
-    )
+    fig.update_yaxes(showspikes=True, spikedash="solid", spikemode="across", spikethickness=0.25)
 
     # Set the X-axis range from periods_back to to latest value + 10 periods
     x_buffer = 20
@@ -89,10 +79,8 @@ def plot_candlestick_chart(inst_data: pd.DataFrame, name: str, periods_back=180)
         yaxis=dict(range=y_range, autorange=False),
     )
 
-    return fig
 
-
-def alt_candlesticks(source: pd.DataFrame):
+def alt_candlesticks(source: pd.DataFrame) -> None:
     # Prepare data
     data = source.reset_index()
     data.rename(
@@ -100,9 +88,7 @@ def alt_candlesticks(source: pd.DataFrame):
         inplace=True,
     )
 
-    open_close_color = alt.condition(
-        "datum.open <= datum.close", alt.value("#06982d"), alt.value("#ae1325")
-    )
+    open_close_color = alt.condition("datum.open <= datum.close", alt.value("#06982d"), alt.value("#ae1325"))
 
     base = alt.Chart(data).properties(width=1600, height=900)
     base = base.encode(
@@ -126,5 +112,5 @@ def alt_candlesticks(source: pd.DataFrame):
     )
     bar = base.mark_bar().encode(alt.Y("open:Q"), alt.Y2("close:Q")).interactive()
     chart = rule + bar
+    chart.show()
     # print(chart.to_json(indent=2)) # Alternative to render json of chart for OpenBlocks
-    return chart

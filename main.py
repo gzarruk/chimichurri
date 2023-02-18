@@ -1,6 +1,10 @@
-from chimi import Strategy
 from datetime import datetime
 
+import matplotlib as mpl
+
+from chimi import Strategy
+
+mpl.use("WebAgg")
 
 # Press the green button in the gutter to run the script.
 if __name__ == "__main__":
@@ -12,4 +16,5 @@ if __name__ == "__main__":
         price="B",
     )
 
-    data = tauro.get_data()
+    tauro.get_data()
+    fig, ax = tauro.plot()

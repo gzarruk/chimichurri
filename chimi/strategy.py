@@ -1,8 +1,10 @@
+from datetime import datetime
+from pathlib import Path
+from typing import Optional, Union
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import tpqoa
-from pathlib import Path
-from datetime import datetime
-from typing import Union, Optional
 
 DEMO_CONFIG_FILEPATH = Path(__file__).resolve().parent.parent / "oanda.practice.cfg"
 LIVE_CONFIG_FILEPATH = Path(__file__).resolve().parent.parent / "oanda.live.cfg"
@@ -17,10 +19,7 @@ class Strategy:
         end: Optional[Union[datetime, str]] = None,
         granularity: Optional[str] = None,
         price: Optional[str] = None,
-    ):
-        """
-        Using GOLD (XAU_USD) and practice account as default values for any strategy.
-        """
+    ) -> None:
         self.data = None
         self.pair = pair
         self.live = live
@@ -44,4 +43,24 @@ class Strategy:
             granularity=self.granularity,
             price=self.price,
         )
+
         return self.data
+
+    def plot(self, target: str = "c") -> tuple[plt.figure, plt.axes]:
+        """
+
+        :param target: Name of the DataFrame colum to plot
+        :return: tuple[fig, ax] with the handles for the figure generated
+        """
+        fig, ax = plt.subplots(figsize=(25, 12), frameon=False)
+        ax.plot(self.data.index, self.data[target])
+
+        ax.set(
+            xlabel="Date & Time",
+            ylabel=self.pair[4:],
+            title=self.pair,
+        )
+        ax.grid()
+        fig.tight_layout()
+        plt.show()
+        return fig, ax
