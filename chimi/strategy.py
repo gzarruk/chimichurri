@@ -53,7 +53,7 @@ class Strategy:
         :return: tuple[fig, ax] with the handles for the figure generated
         """
         fig, ax = plt.subplots(figsize=(25, 12), frameon=False)
-        ax.plot(self.data.index, self.data[target])
+        ax.plot(self.data.index, self.data[target], "-o")
 
         ax.set(
             xlabel="Date & Time",
